@@ -3,8 +3,8 @@ package net.ldvsoft.factorio_calculator.model.base
 infix fun Int.of(item: Item) = item to toDouble()
 infix fun Double.of(item: Item) = item to this
 
-data class ItemCounts(val counts: Map<Item, Double> = emptyMap()): Map<Item, Double> by counts {
-    constructor(vararg counts: Pair<Item, Double>): this(mapOf(*counts))
+data class ItemCounts(val counts: Map<Item, Double> = emptyMap()) : Map<Item, Double> by counts {
+    constructor(vararg counts: Pair<Item, Double>) : this(mapOf(*counts))
 
     override operator fun get(key: Item): Double {
         return counts.getOrDefault(key, .0)

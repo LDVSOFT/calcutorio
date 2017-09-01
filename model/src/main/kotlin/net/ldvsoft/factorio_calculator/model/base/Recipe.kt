@@ -9,7 +9,7 @@ data class Recipe(
         val products: ItemCounts,
         val timeToCraft: Duration,
         val requiredMachineLevel: Map<MachineType, Int>
-): IdentifiedObject("recipe") {
+) : IdentifiedObject("recipe") {
     fun canBeCraftedIn(machine: Machine): Boolean {
         val requiredLevel = requiredMachineLevel[machine.type] ?: return false
         return requiredLevel >= machine.level

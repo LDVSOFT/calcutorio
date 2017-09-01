@@ -5,7 +5,7 @@ import net.ldvsoft.factorio_calculator.model.base.Machine
 import net.ldvsoft.factorio_calculator.model.base.MachineType
 import net.ldvsoft.factorio_calculator.model.base.Recipe
 
-class SimpleContent: MutableContent {
+class SimpleContent : MutableContent {
     override val items = SimpleIdMap(listener = object : SimpleIdMap.Listener<Item>() {
         override fun onRemove(element: Item) {
             if (recipes.any { element in it.ingredients || element in it.products })

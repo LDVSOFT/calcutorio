@@ -12,7 +12,7 @@ interface Content {
     val recipes: IdMap<Recipe>
 }
 
-interface MutableContent: Content {
+interface MutableContent : Content {
     override val items: MutableIdMap<Item>
     override val machineTypes: MutableIdMap<MachineType>
     override val machines: MutableIdMap<Machine>

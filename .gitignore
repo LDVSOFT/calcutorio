@@ -2,7 +2,6 @@ target/
 
 # Idea
 .idea/*
-.idea/libraries/
 *.iml
 
 # Vim

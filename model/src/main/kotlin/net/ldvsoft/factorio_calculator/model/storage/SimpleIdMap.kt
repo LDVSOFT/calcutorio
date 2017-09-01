@@ -2,7 +2,7 @@ package net.ldvsoft.factorio_calculator.model.storage
 
 import net.ldvsoft.factorio_calculator.model.base.Identified
 
-class SimpleIdMap<T: Identified> internal constructor(data: Iterable<T> = emptyList(), val listener: Listener<T>?): MutableIdMap<T> {
+class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = emptyList(), val listener: Listener<T>?) : MutableIdMap<T> {
     private val map: MutableMap<String, T> = data.mapping().toMutableMap()
 
     internal abstract class Listener<T> {
@@ -10,7 +10,7 @@ class SimpleIdMap<T: Identified> internal constructor(data: Iterable<T> = emptyL
         open fun onRemove(element: T) {}
     }
 
-    constructor(data: Iterable<T> = emptyList()): this(data, null)
+    constructor(data: Iterable<T> = emptyList()) : this(data, null)
 
     override fun contains(id: String) = map.containsKey(id)
     override fun get(id: String) = map[id]

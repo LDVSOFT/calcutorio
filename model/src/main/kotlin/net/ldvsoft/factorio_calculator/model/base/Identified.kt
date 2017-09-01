@@ -1,6 +1,6 @@
 package net.ldvsoft.factorio_calculator.model.base
 
-interface Identified: Comparable<Identified> {
+interface Identified : Comparable<Identified> {
     val id: String
     val idType: String
 
@@ -11,4 +11,4 @@ interface Identified: Comparable<Identified> {
     }
 }
 
-abstract class IdentifiedObject(override val idType: String): Identified
+abstract class IdentifiedObject(override val idType: String) : Identified

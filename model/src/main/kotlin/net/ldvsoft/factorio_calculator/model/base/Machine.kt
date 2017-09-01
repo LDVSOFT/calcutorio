@@ -5,4 +5,4 @@ data class Machine(
         val type: MachineType,
         val level: Int,
         val speed: Double
-): IdentifiedObject("machine")
+) : IdentifiedObject("machine")
