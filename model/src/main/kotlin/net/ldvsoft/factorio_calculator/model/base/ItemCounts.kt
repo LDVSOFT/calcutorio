@@ -1,6 +1,11 @@
 package net.ldvsoft.factorio_calculator.model.base
 
+infix fun Int.of(item: Item) = item to toDouble()
+infix fun Double.of(item: Item) = item to this
+
 class ItemCounts(val counts: Map<Item, Double> = emptyMap()): Map<Item, Double> by counts {
+    constructor(vararg counts: Pair<Item, Double>): this(mapOf(*counts))
+
     override operator fun get(key: Item): Double {
         return counts.getOrDefault(key, .0)
     }
@@ -30,7 +35,7 @@ class ItemCounts(val counts: Map<Item, Double> = emptyMap()): Map<Item, Double> 
     }
 
     operator fun div(that: ItemCounts): Double {
-        return that.minBy { (item, cnt) -> this[item] / cnt }?.component2() ?: Double.POSITIVE_INFINITY
+        return that.map { (item, cnt) -> this[item] / cnt }.min() ?: Double.POSITIVE_INFINITY
     }
 
     fun notGreaterThan(that: ItemCounts) = all { (item, value) -> value <= that[item] }
@@ -47,5 +52,9 @@ class ItemCounts(val counts: Map<Item, Double> = emptyMap()): Map<Item, Double> 
         return ItemCounts(ceil.mapValues { (item, cnt) -> maxOf(cnt, this[item]) })
     }
 
-    fun has(item: Item) = keys.contains(item)
+    operator fun contains(item: Item) = keys.contains(item)
+
+    override fun toString(): String {
+        return entries.joinToString(prefix = "ItemCounts{", postfix = "}") { "${it.key.id}: ${it.value}" }
+    }
 }

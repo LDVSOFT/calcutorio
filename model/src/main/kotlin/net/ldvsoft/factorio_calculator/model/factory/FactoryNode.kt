@@ -11,12 +11,12 @@ abstract class FactoryNode(inputPorts: Int = 0, outputPorts: Int = 0) {
 
     var outputs: List<FactoryPort> = ArrayList()
         private set
-    var outputCounts: Int = 0
+    var outputCount: Int = 0
         protected set (newCount) = setPortCounts(newCount, true)
 
     init {
         this.inputsCount = inputPorts
-        this.outputCounts = outputPorts
+        this.outputCount = outputPorts
     }
 
     private fun setPortCounts(newCount: Int, isOutputPorts: Boolean) {
@@ -55,6 +55,16 @@ abstract class FactoryNode(inputPorts: Int = 0, outputPorts: Int = 0) {
     internal fun postTick() {
         inputs.forEach { it.tick() }
         outputs.forEach { it.tick() }
+    }
+
+    fun isLinkedTo(other: FactoryNode): Boolean {
+        inputs.forEach { if (it.linkedPort?.owner == other) return true }
+        inputs.forEach { if (it.linkedPort?.owner == other) return true }
+        return false
+    }
+
+    fun isLinked(): Boolean {
+        return inputs.any { it.linked } || outputs.any { it.linked }
     }
 
     internal abstract fun tickMaximumFlow()

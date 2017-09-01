@@ -18,8 +18,6 @@ class FactoryPort internal constructor(val owner: FactoryNode, val isOutputPort:
 
     var curFlow: ItemCounts = ItemCounts()
         internal set(value) {
-            if (field.notGreaterThan(value))
-                return
             field = value.ceilWith(maxFlow)
             if (isOutputPort)
                 owner.outputChanged = true

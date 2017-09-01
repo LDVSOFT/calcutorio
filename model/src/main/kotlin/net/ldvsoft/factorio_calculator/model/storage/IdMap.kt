@@ -3,7 +3,7 @@ package net.ldvsoft.factorio_calculator.model.storage
 import net.ldvsoft.factorio_calculator.model.base.Identified
 
 interface IdMap<T: Identified>: Collection<T> {
-    fun contains(id: String): Boolean
+    operator fun contains(id: String): Boolean
     fun get(id: String): T?
     fun getOrDefault(id: String, default: T): T
 }

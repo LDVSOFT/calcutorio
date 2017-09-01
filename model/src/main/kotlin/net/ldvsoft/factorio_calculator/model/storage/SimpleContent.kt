@@ -8,7 +8,7 @@ import net.ldvsoft.factorio_calculator.model.base.Recipe
 class SimpleContent: MutableContent {
     override val items = SimpleIdMap(listener = object : SimpleIdMap.Listener<Item>() {
         override fun onRemove(element: Item) {
-            if (recipes.any { it.ingredients.has(element) || it.products.has(element) })
+            if (recipes.any { element in it.ingredients || element in it.products })
                 throw IllegalStateException("There are recipes with that item ($element)")
         }
     })
