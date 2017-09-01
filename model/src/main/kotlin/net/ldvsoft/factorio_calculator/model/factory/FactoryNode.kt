@@ -1,4 +1,4 @@
-package net.ldvsoft.factorio_calculator.model.base
+package net.ldvsoft.factorio_calculator.model.factory
 
 abstract class FactoryNode(inputPorts: Int = 0, outputPorts: Int = 0) {
     internal var inputChanged: Boolean = false

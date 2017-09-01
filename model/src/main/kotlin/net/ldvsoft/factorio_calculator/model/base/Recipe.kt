@@ -3,17 +3,6 @@ package net.ldvsoft.factorio_calculator.model.base
 import net.ldvsoft.factorio_calculator.utils.div
 import java.time.Duration
 
-data class Item(override val id: String): IdentifiedObject("item")
-
-data class MachineType(override val id: String): IdentifiedObject("machineType")
-
-data class Machine(
-        override val id: String,
-        val type: MachineType,
-        val level: Int,
-        val speed: Double
-): IdentifiedObject("machine")
-
 data class Recipe(
         override val id: String,
         val ingredients: ItemCounts,

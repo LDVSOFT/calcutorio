@@ -1,8 +1,6 @@
-package net.ldvsoft.factorio_calculator.model
+package net.ldvsoft.factorio_calculator.model.storage
 
 import net.ldvsoft.factorio_calculator.model.base.Identified
-import net.ldvsoft.factorio_calculator.model.storage.MutableIdMap
-import net.ldvsoft.factorio_calculator.model.storage.mapping
 
 class SimpleIdMap<T: Identified> internal constructor(data: Iterable<T> = emptyList(), val listener: Listener<T>?): MutableIdMap<T> {
     private val map: MutableMap<String, T> = data.mapping().toMutableMap()

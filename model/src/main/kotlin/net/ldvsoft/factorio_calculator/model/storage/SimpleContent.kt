@@ -1,6 +1,5 @@
 package net.ldvsoft.factorio_calculator.model.storage
 
-import net.ldvsoft.factorio_calculator.model.SimpleIdMap
 import net.ldvsoft.factorio_calculator.model.base.Item
 import net.ldvsoft.factorio_calculator.model.base.Machine
 import net.ldvsoft.factorio_calculator.model.base.MachineType

@@ -1,4 +1,6 @@
-package net.ldvsoft.factorio_calculator.model.base
+package net.ldvsoft.factorio_calculator.model.factory
+
+import net.ldvsoft.factorio_calculator.model.base.ItemCounts
 
 class FactoryPort internal constructor(val owner: FactoryNode, val isOutputPort: Boolean) {
     private var maxFlowChanged = false

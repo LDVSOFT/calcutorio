@@ -1,6 +1,5 @@
-package net.ldvsoft.factorio_calculator.model
+package net.ldvsoft.factorio_calculator.model.factory
 
-import net.ldvsoft.factorio_calculator.model.base.FactoryNode
 import net.ldvsoft.factorio_calculator.model.base.ItemCounts
 import net.ldvsoft.factorio_calculator.model.base.Machine
 import net.ldvsoft.factorio_calculator.model.base.Recipe
