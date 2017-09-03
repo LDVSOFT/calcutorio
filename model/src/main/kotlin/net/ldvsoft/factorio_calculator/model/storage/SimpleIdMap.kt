@@ -1,21 +1,23 @@
 package net.ldvsoft.factorio_calculator.model.storage
 
 import net.ldvsoft.factorio_calculator.model.base.Identified
+import net.ldvsoft.factorio_calculator.utils.fullAll
+import net.ldvsoft.factorio_calculator.utils.fullAny
 
 class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = emptyList(), val listener: Listener<T>?) : MutableIdMap<T> {
     private val map: MutableMap<String, T> = data.mapping().toMutableMap()
 
-    internal abstract class Listener<T> {
+    internal abstract class Listener<in T> {
         open fun onAdd(element: T) {}
         open fun onRemove(element: T) {}
     }
 
     constructor(data: Iterable<T> = emptyList()) : this(data, null)
 
-    override fun contains(id: String) = map.containsKey(id)
-    override fun get(id: String) = map[id]
+    override operator fun contains(id: String) = map.containsKey(id)
+    override operator fun get(id: String) = map[id]
     override fun getOrDefault(id: String, default: T) = map.getOrDefault(id, default)
-    override val size = map.size
+    override val size get() = map.size
     override fun isEmpty() = map.isEmpty()
 
     override fun add(element: T): Boolean {
@@ -46,13 +48,37 @@ class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = empty
         return true
     }
 
-    override fun addAll(elements: Collection<T>) = elements.any { add(it) }
-    override fun containsAll(elements: Collection<T>) = elements.any { contains(it) }
-    override fun removeAll(elements: Collection<T>): Boolean = elements.any { remove(it) }
+    override fun remove(id: String): Boolean {
+        val storedElement = map[id] ?: return false
+        listener?.onRemove(storedElement)
+        map.remove(id)
+        return true
+    }
 
-    override fun clear() = map.clear()
-    override fun remove(id: String) = map.remove(id) != null
-    override fun iterator() = map.values.iterator()
+    override fun addAll(elements: Collection<T>) = elements.fullAny { add(it) }
+    override fun containsAll(elements: Collection<T>) = elements.fullAll { contains(it) }
+    override fun removeAll(elements: Collection<T>): Boolean = elements.fullAny { remove(it) }
+
+    override fun iterator(): MutableIterator<T> {
+        val realIterator = map.values.iterator()
+        return object: MutableIterator<T> by realIterator {
+            private lateinit var lastGiven: T
+
+            override fun next(): T {
+                lastGiven = realIterator.next()
+                return lastGiven
+            }
+
+            override fun remove() {
+                listener?.onRemove(lastGiven)
+                realIterator.remove()
+            }
+        }
+    }
+
+    override fun clear() {
+        retainAll { false }
+    }
 
     override fun retainAll(elements: Collection<T>): Boolean {
         var changed: Boolean = false

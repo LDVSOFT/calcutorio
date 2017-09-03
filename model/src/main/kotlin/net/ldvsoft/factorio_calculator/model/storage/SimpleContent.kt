@@ -17,7 +17,7 @@ class SimpleContent : MutableContent {
         override fun onRemove(element: MachineType) {
             if (machines.any { it.type == element })
                 throw IllegalStateException("There are machines with that type ($element)")
-            if (recipes.any { it.requiredMachineLevel.containsKey(element) })
+            if (recipes.any { element in it.requiredMachineLevel })
                 throw IllegalStateException("There are recipes dependant on that type ($element)")
         }
     })

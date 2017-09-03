@@ -64,6 +64,7 @@ internal class ItemCountsTest {
         val x = ItemCounts(5 of a, 2.1 of b)
 
         assertEquals(ItemCounts(0 of a, 0 of b), x * 0.0)
+        assertEquals(zero, (x * 0.0).filerNonZero())
         assertEquals(ItemCounts(20 of a, 8.4 of b), x * 4.0)
         assertEquals(ItemCounts(2.5 of a, 1.05 of b), x / 2.0)
         assertThrows(IllegalArgumentException::class.java) { x / 0.0 }
@@ -108,5 +109,14 @@ internal class ItemCountsTest {
         assertEquals(zero, z.ceilWith(zero).filerNonZero())
         assertEquals(zero, z.ceilWith(d).filerNonZero())
         assertEquals(zero, d.ceilWith(z).filerNonZero())
+    }
+
+    @Test
+    @DisplayName("toString test")
+    fun toStringTest() {
+        val a = Item("a")
+
+        assertEquals("ItemCounts{}", ItemCounts().toString())
+        assertEquals("ItemCounts{a: 2.0}", ItemCounts(2 of a).toString())
     }
 }

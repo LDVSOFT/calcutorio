@@ -4,7 +4,7 @@ import net.ldvsoft.factorio_calculator.model.base.Identified
 
 interface IdMap<T : Identified> : Collection<T> {
     operator fun contains(id: String): Boolean
-    fun get(id: String): T?
+    operator fun get(id: String): T?
     fun getOrDefault(id: String, default: T): T
 }
 

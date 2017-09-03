@@ -12,7 +12,7 @@ data class Recipe(
 ) : IdentifiedObject("recipe") {
     fun canBeCraftedIn(machine: Machine): Boolean {
         val requiredLevel = requiredMachineLevel[machine.type] ?: return false
-        return requiredLevel >= machine.level
+        return requiredLevel <= machine.level
     }
 
     fun getOutputWith(machine: Machine, input: ItemCounts): ItemCounts {
@@ -25,6 +25,6 @@ data class Recipe(
     fun getMaximumOutputFlowWith(machine: Machine, per: Duration): ItemCounts {
         if (!canBeCraftedIn(machine))
             throw IllegalArgumentException("Machine $machine cannot craft $this")
-        return products * (per / timeToCraft / machine.speed)
+        return products * (per / timeToCraft) * machine.speed
     }
 }
