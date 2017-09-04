@@ -101,20 +101,20 @@ internal class SimpleIdMapTest {
         assertFalse(map.containsAll(listOf(b, c)))
 
         assertTrue(map.removeAll(listOf(a, c, d)))
-        assertEquals(setOf(b), map.toSet())
+        assertEquals(setOf(b), map)
         assertFalse(map.removeAll(listOf(a, c)))
 
         assertTrue(map.addAll(listOf(a, c)))
         assertEquals(3, map.size)
         assertTrue(map.containsAll(listOf(b, c)))
-        assertEquals(setOf(a, b, c), map.toSet())
+        assertEquals(setOf(a, b, c), map)
         assertFalse(map.retainAll(listOf(a, b, c)))
 
         assertTrue(map.retainAll(listOf(b, c, d)))
-        assertEquals(setOf(b, c), map.toSet())
+        assertEquals(setOf(b, c), map)
 
         map.clear()
         assertTrue(map.isEmpty())
-        assertEquals(setOf<Object>(), map.toSet())
+        assertEquals(setOf<Object>(), map)
     }
 }

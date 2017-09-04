@@ -6,10 +6,15 @@
         <groupId>net.ldvsoft.calcutorio</groupId>
         <artifactId>calcutorio</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>model</artifactId>
+    <artifactId>platform-kotlin-jackson</artifactId>
+
+    <properties>
+        <jackson.version>2.9.0</jackson.version>
+    </properties>
 
     <build>
         <plugins>
@@ -26,26 +31,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.ldvsoft.calcutorio</groupId>
-            <artifactId>platform-kotlin-jackson</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jre8</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.microutils</groupId>
-            <artifactId>kotlin-logging</artifactId>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>net.ldvsoft.calcutorio</groupId>
-            <artifactId>platform-kotlin-jackson</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

@@ -1,10 +1,16 @@
 package net.ldvsoft.factorio_calculator.model.storage
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnore
 import net.ldvsoft.factorio_calculator.model.base.Identified
 import net.ldvsoft.factorio_calculator.utils.fullAll
 import net.ldvsoft.factorio_calculator.utils.fullAny
 
-class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = emptyList(), val listener: Listener<T>?) : MutableIdMap<T> {
+class SimpleIdMap<T : Identified> internal constructor(
+        data: Collection<T> = emptyList(),
+        @get:JsonIgnore
+        val listener: Listener<T>?
+) : MutableIdMap<T> {
     private val map: MutableMap<String, T> = data.mapping().toMutableMap()
 
     internal abstract class Listener<in T> {
@@ -12,7 +18,10 @@ class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = empty
         open fun onRemove(element: T) {}
     }
 
-    constructor(data: Iterable<T> = emptyList()) : this(data, null)
+    internal constructor(vararg elements: T, listener: Listener<T>): this(listOf(*elements), listener)
+
+    @JsonCreator
+    constructor(vararg elements: T) : this(listOf(*elements), null)
 
     override operator fun contains(id: String) = map.containsKey(id)
     override operator fun get(id: String) = map[id]
@@ -91,5 +100,22 @@ class SimpleIdMap<T : Identified> internal constructor(data: Iterable<T> = empty
             }
         }
         return changed
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is IdMap<*>)
+            return false
+        return other.toSet() == map.values.toSet()
+    }
+
+    override fun hashCode(): Int {
+        return map.hashCode()
+    }
+
+    override fun toString(): String {
+        if (listener == null)
+            return map.toString()
+        else
+            return "SimpleIdMap(listener=$listener)$map"
     }
 }

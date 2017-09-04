@@ -1,8 +1,18 @@
 package net.ldvsoft.factorio_calculator.model.base
 
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+
 infix fun Int.of(item: Item) = item to toDouble()
 infix fun Double.of(item: Item) = item to this
 
+private typealias RawItemCounts = Map<Item, Double>
+
+@JsonDeserialize(using = ItemCountsDeserializer::class)
 data class ItemCounts(val counts: Map<Item, Double> = emptyMap()) : Map<Item, Double> by counts {
     constructor(vararg counts: Pair<Item, Double>) : this(mapOf(*counts))
 
@@ -52,5 +62,21 @@ data class ItemCounts(val counts: Map<Item, Double> = emptyMap()) : Map<Item, Do
 
     override fun toString(): String {
         return entries.joinToString(prefix = "ItemCounts{", postfix = "}") { "${it.key.id}: ${it.value}" }
+    }
+}
+
+internal object ItemCountsDeserializer: JsonDeserializer<ItemCounts>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ItemCounts {
+        /**
+         * Because of Kotlin immutable containers, we need to wrap deserialization.
+         * Else, we cannot deserialize ItemCount
+         */
+        val underlyingTypeRef = jacksonTypeRef<RawItemCounts>()
+        val underlyingJavaType = TypeFactory.defaultInstance().constructType(underlyingTypeRef)
+        val underlyingMapper = @Suppress("UNCHECKED_CAST") (
+                ctxt.findRootValueDeserializer(underlyingJavaType) as JsonDeserializer<out RawItemCounts>
+                )
+        val map = underlyingMapper.deserialize(p, ctxt)
+        return ItemCounts(map)
     }
 }

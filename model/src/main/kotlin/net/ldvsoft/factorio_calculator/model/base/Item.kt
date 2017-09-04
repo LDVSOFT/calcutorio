@@ -1,3 +1,5 @@
 package net.ldvsoft.factorio_calculator.model.base
 
-data class Item(override val id: String) : IdentifiedObject("item")
+import com.fasterxml.jackson.annotation.JsonValue
+
+data class Item constructor(@get:JsonValue override val id: String) : IdentifiedObject("item")

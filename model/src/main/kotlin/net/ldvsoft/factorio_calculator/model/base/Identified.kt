@@ -1,7 +1,10 @@
 package net.ldvsoft.factorio_calculator.model.base
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 interface Identified : Comparable<Identified> {
     val id: String
+    @get:JsonIgnore
     val idType: String
 
     override fun compareTo(other: Identified): Int {
